@@ -9,6 +9,6 @@ public class Demo {
         student.setMarry(Boolean.valueOf("false"));
         student.setGender(Character.valueOf('男'));
         System.out.println(student);
-        System.out.println(student.getName() + student.getAge() + student.getHigh() + student.getGender());
+        System.out.println(student.getName() + student.getAge() + student.getHigh() + student.getGender() + student.isMarry());
     }
 }
