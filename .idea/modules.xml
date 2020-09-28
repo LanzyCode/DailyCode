@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/0920hm/0920hm.iml" filepath="$PROJECT_DIR$/0920hm/0920hm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/0921hm/0921hm.iml" filepath="$PROJECT_DIR$/0921hm/0921hm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/0922hm/0922hm.iml" filepath="$PROJECT_DIR$/0922hm/0922hm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/0924hm/0924hm.iml" filepath="$PROJECT_DIR$/0924hm/0924hm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/0925hm/0925hm.iml" filepath="$PROJECT_DIR$/0925hm/0925hm.iml" />
-      <module fileurl="file://$PROJECT_DIR$/0927hm/0927hm.iml" filepath="$PROJECT_DIR$/0927hm/0927hm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0920_Static/0920_Static.iml" filepath="$PROJECT_DIR$/0920_Static/0920_Static.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0921_Extends/0921_Extends.iml" filepath="$PROJECT_DIR$/0921_Extends/0921_Extends.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0922_Interface/0922_Interface.iml" filepath="$PROJECT_DIR$/0922_Interface/0922_Interface.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0924_InnerClass&amp;Lamda/0924_InnerClass&amp;Lamda.iml" filepath="$PROJECT_DIR$/0924_InnerClass&amp;Lamda/0924_InnerClass&amp;Lamda.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0925_API/0925_API.iml" filepath="$PROJECT_DIR$/0925_API/0925_API.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0927_Collection/0927_Collection.iml" filepath="$PROJECT_DIR$/0927_Collection/0927_Collection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/0928_Generic/0928_Generic.iml" filepath="$PROJECT_DIR$/0928_Generic/0928_Generic.iml" />
     </modules>
   </component>
 </project>
