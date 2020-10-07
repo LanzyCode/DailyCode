@@ -1,5 +1,7 @@
 package com.itheima.map;
 
+import com.itheima.domain.Student;
+
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.Locale;
