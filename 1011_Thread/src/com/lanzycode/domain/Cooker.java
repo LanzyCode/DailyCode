@@ -1,7 +1,7 @@
 package com.lanzycode.domain;
 
 public class Cooker extends Thread{
-    private Desk desk;
+    private final Desk desk;
     public Cooker(Desk desk) {
         this.desk=desk;
     }

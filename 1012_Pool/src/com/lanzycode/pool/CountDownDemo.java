@@ -11,7 +11,7 @@ public class CountDownDemo {
     }
 }
 class Ming extends Thread{
-    private CountDownLatch cd;
+    private final CountDownLatch cd;
 
     public Ming(CountDownLatch cd) {
         this.cd=cd;
@@ -28,7 +28,7 @@ class Ming extends Thread{
     }
 }
 class Wang extends Thread{
-    private CountDownLatch cd;
+    private final CountDownLatch cd;
 
     public Wang(CountDownLatch cd) {
         this.cd=cd;
@@ -48,7 +48,7 @@ class Wang extends Thread{
     }
 }
 class Ba extends Thread{
-    private CountDownLatch cd;
+    private final CountDownLatch cd;
 
     public Ba(CountDownLatch cd) {
         this.cd=cd;

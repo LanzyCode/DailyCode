@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.logging.SocketHandler;
 
 public class FileUploadPool implements Runnable{
-    private Socket socket;
+    private final Socket socket;
 
     public FileUploadPool(Socket socket) {
         this.socket = socket;

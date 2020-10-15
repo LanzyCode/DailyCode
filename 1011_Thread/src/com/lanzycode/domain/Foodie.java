@@ -1,7 +1,7 @@
 package com.lanzycode.domain;
 
 public class Foodie extends Thread {
-    private  Desk desk;
+    private final Desk desk;
 
     public Foodie(Desk desk) {
         this.desk=desk;

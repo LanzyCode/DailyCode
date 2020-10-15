@@ -5,12 +5,12 @@ public interface InterA {
         System.out.println("A.show");
     }
 
-    public default void start() {
+    default void start() {
         log();
         System.out.println("open");
     }
 
-    public default void end() {
+    default void end() {
         log();
         System.out.println("end");
     }
@@ -19,12 +19,12 @@ public interface InterA {
         System.out.println("日志记录");
     }
 
-    public static void open() {
+    static void open() {
         note();
         System.out.println("O");
     }
 
-    public static void close() {
+    static void close() {
         note();
         System.out.println("C");
     }

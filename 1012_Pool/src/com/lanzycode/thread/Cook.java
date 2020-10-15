@@ -4,8 +4,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 
 public class Cook extends Thread {
-    private ArrayBlockingQueue<String> ab;
-    private Object obj;
+    private final ArrayBlockingQueue<String> ab;
+    private final Object obj;
 
     public Cook(ArrayBlockingQueue ab, Object obj) {
         this.ab = ab;

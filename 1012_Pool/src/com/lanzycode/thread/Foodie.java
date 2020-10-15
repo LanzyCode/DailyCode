@@ -3,8 +3,8 @@ package com.lanzycode.thread;
 import java.util.concurrent.ArrayBlockingQueue;
 
 public class Foodie extends Thread {
-    private ArrayBlockingQueue<String> ab;
-    private Object obj;
+    private final ArrayBlockingQueue<String> ab;
+    private final Object obj;
     public Foodie(ArrayBlockingQueue ab, Object obj) {
         this.ab = ab;
         this.obj=obj;

@@ -6,8 +6,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class TicketDemo implements Runnable {
     private int count = 100;
     //创建令牌：可以为任意对象
-    private Object obj = new Object();
-    private Lock lock=new ReentrantLock();
+    private final Object obj = new Object();
+    private final Lock lock=new ReentrantLock();
     @Override
     public void run() {
         for (int i = 0; i < 100; i++) {
