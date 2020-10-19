@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--注释内容-->
+<students
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.lanzycode.com/javase"
+    xsi:schemaLocation="http://www.lanzycode.com/javase demo.xsd"
+>
+    <student id="001">
+        <name>王宝强</name>
+        <age>23</age>
+    </student>
+    <student id="002">
+        <name>马蓉</name>
+        <age>25</age>
+    </student>
+</students>
