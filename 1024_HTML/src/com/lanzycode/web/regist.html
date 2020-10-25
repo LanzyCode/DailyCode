@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <style>
+        body {
+            background-color: black;
+        }
+
+        .logo {
+            color: #ffffff;
+        }
+
+        .reg {
+            width: 50%;
+            margin: 1% 25% 25%;
+            background-color: white;
+            text-align: center;
+        }
+
+        label {
+            font-size: small;
+        }
+
+    </style>
+</head>
+<body>
+<!--LOGO-->
+<div>
+    <h1 class="logo">黑马头条</h1>
+</div>
+<!--注册详情-->
+<div class="reg">
+    <div>注册详情</div>
+    <hr/>
+    <form action="#" method="get" autocomplete="off">
+        <div>
+            <label for="username">用户名：</label>
+            <input id="username" type="text" name="username" placeholder="请输入注册的用户名" required/>
+        </div>
+        <div>
+            <label for="password">&nbsp;&nbsp;&nbsp;密码：</label>
+            <input id="password" type="password" name="password" placeholder="请输入密码" required/>
+        </div>
+        <div>
+            <label for="email">&nbsp;&nbsp;邮箱：</label><input id="email" type="email" name="email" placeholder="请输入邮箱" required/>
+        </div>
+        <div>
+            <label for="gender">&nbsp;&nbsp;性别：</label>
+            <input id="gender" type="radio" name="gender" value="male"/>男&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="radio" name="gender" value="female"/>女&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div>
+            <label for="i5">爱好:</label>
+            <input id="i5" type="checkbox" name="hobby" value="swim" checked/>游泳
+            <input type="checkbox" name="hobby" value="tennis"/>网球
+        </div>
+        <div>
+            <label for="i6">出生日期：</label>
+            <input id="i6" type="date" name="date"/>
+        </div>
+        <label for="age">年龄：</label>
+        <input id="age" type="number" name="age"/>
+        <br/>
+        <label for="range">心情：</label>
+        <input id="range" type="range" name="range" min="1" max="10"/>
+        <br/>
+        <label for="search">文本:</label>
+        <input id="search" type="search" name="search"/>
+        <br/>
+        <label for="tel">电话:</label>
+        <input id="tel" type="tel" name="tel"/>
+        <br/>
+        <label for="url">网址:</label>
+        <input id="url" type="url" name="url"/>
+        <br/>
+        <label for="file">文件:</label>
+        <input id="file" type="file" name="file"/>
+        <br/>
+        <label for="hidden">隐藏:</label>
+        <input id="hidden" type="hidden" name="hidden"/>
+        <br/>
+        <label for="city">城市：</label>
+        <select id="city" name="city">
+            <option>----请选择城市----</option>
+            <optgroup label="直辖市">
+                <option>北京</option>
+                <option>上海</option>
+            </optgroup>
+            <optgroup label="省会">
+                <option value="xa">西安</option>
+                <option value="wh">武汉</option>
+            </optgroup>
+        </select>
+        <br/>
+        <div>
+            <label for="desc">个性签名：</label>
+            <textarea id="desc" name="desc" rows="5" cols="20"></textarea>
+        </div>
+        <button type="submit">提交</button>
+        <button type="reset">重置</button>
+    </form>
+</div>
+</body>
+</html>
