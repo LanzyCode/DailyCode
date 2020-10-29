@@ -17,10 +17,25 @@
     <servlet>
         <servlet-name>HttpServletDemo</servlet-name>
         <servlet-class>com.lanzycode.web.servletdemo.HttpServletDemo</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
         <servlet-name>HttpServletDemo</servlet-name>
         <url-pattern>/demo1</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ContextDemo</servlet-name>
+        <servlet-class>com.lanzycode.web.servletdemo.ContextDemo</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ContextDemo</servlet-name>
+        <url-pattern>/demo2</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>Encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </context-param>
 </web-app>
