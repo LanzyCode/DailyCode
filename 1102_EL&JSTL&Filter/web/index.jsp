@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
-    <title>用户信息系统</title>
+    <title>主页</title>
 </head>
 <body>
     <c:if test="${sessionScope.username eq null}">

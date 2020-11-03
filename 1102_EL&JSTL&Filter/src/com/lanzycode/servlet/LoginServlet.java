@@ -14,15 +14,14 @@ import java.io.IOException;
 public class LoginServlet extends HttpServlet{
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("name");
-        String password = req.getParameter("address");
+        String username = req.getParameter("username");
 
         if(username == null || "".equals(username)) {
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
             return;
         }
 
-        req.getSession().setAttribute("name",username);
+        req.getSession().setAttribute("username",username);
 
         resp.sendRedirect(req.getContextPath() + "/index.jsp");
     }
