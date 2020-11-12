@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.jupiter.api.Test;
 
-
 import java.io.InputStream;
 import java.util.List;
 
