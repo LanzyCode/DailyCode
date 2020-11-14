@@ -6,17 +6,12 @@
 <configuration>
 
     <!--引入数据库连接的配置文件-->
-    <properties resource="jdbc.properties"/>
+    <properties resource="config.properties"/>
 
     <!--配置LOG4J-->
     <settings>
         <setting name="logImpl" value="log4j"/>
     </settings>
-
-    <!--起别名-->
-    <typeAliases>
-        <package name="com.lanzycode.bean"/>
-    </typeAliases>
 
     <!--environments配置数据库环境，环境可以有多个。default属性指定使用的是哪个-->
     <environments default="mysql">
