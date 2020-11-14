@@ -1,30 +1,17 @@
 package com.itheima.bean;
 
-import java.util.List;
-
-public class Student {
+public class Person {
     private Integer id;     //主键id
-    private String name;    //学生姓名
-    private Integer age;    //学生年龄
+    private String name;    //人的姓名
+    private Integer age;    //人的年龄
 
-    private List<Course> courses;   //学生所选择的课程对象
-
-    public Student() {
+    public Person() {
     }
 
-    public Student(Integer id, String name, Integer age, List<Course> courses) {
+    public Person(Integer id, String name, Integer age) {
         this.id = id;
         this.name = name;
         this.age = age;
-        this.courses = courses;
-    }
-
-    public List<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(List<Course> courses) {
-        this.courses = courses;
     }
 
     public Integer getId() {
@@ -53,7 +40,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return "Student{" +
+        return "Person{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", age=" + age +

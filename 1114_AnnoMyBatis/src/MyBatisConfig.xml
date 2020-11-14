@@ -37,6 +37,6 @@
 
     <!--配置映射关系-->
     <mappers>
-        <package name="com.itheima.mapper"/>
+        <package name="com.itheima"/>
     </mappers>
 </configuration>
