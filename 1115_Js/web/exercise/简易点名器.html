@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #d1 {
+            border: 1px solid gray;
+            line-height: 200px;
+            width: 500px;
+            border-radius: 50px;
+            font-family: 楷体;
+            font-size: 50px;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div style="padding-top: 100px">
+        <div id="d1">你做好准备了吗？</div>
+        <div style="margin: auto;width: 500px;padding-top:50px;text-align: center">
+            <button id="b1" style="border: 1px solid gray;height: 40px;width: 100px;font-size: 20px;background-color:yellowgreen">开始点名</button>
+        </div>
+    </div>
+
+    <script>
+
+        //1，定义数组，用来存储姓名
+        let names = ["海洋","张鑫","蕊蕊","三丰","无忌","翠山"];
+
+        //给按钮绑定单击事件
+        document.getElementById("b1").onclick = function() {
+
+            //2,生成随机数
+            let index = Math.floor(Math.random() * names.length);
+
+            //3,根据索引获取姓名
+            let name = names[index];
+
+            //4,获取div元素对象
+            let divObj = document.getElementById("d1");
+
+            //5,将姓名设置到div的标签体部分
+            divObj.innerHTML = name;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>隔行换色</title>
+    <style>
+        table {
+            width: 50%;
+        }
+
+        th,td {
+            border-bottom: 1px #C0C0C0 solid;
+            height: 40px;
+            font-family: 楷体;
+        }
+
+        a {
+            color: #00008B;
+            text-decoration: none;
+        }
+
+        th {
+            background-color: #DEE3E6;
+        }
+
+    </style>
+</head>
+<body>
+
+    <table align="center">
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>地址</th>
+            <th>操作</th>
+        </tr>
+        <tr align="center">
+            <td>1</td>
+            <td>张三</td>
+            <td>西安</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+
+        <tr align="center">
+            <td>2</td>
+            <td>李四</td>
+            <td>武汉</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+        <tr align="center">
+            <td>3</td>
+            <td>王五</td>
+            <td>北京</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+        <tr align="center">
+            <td>4</td>
+            <td>赵六</td>
+            <td>上海</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+        <tr align="center">
+            <td>5</td>
+            <td>田七</td>
+            <td>深圳</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+        <tr align="center">
+            <td>6</td>
+            <td>老王</td>
+            <td>成都</td>
+            <td><a href="javascript:void(0);">删除</a></td>
+        </tr>
+    </table>
+
+    <script>
+        /*
+            数据行进行各行换色
+                奇数行颜色为 ： #fbfbfb
+                偶数行的颜色为： #e9edf2
+         */
+        //获取tr标签对象
+        let trArr = document.getElementsByTagName("tr");
+        //遍历
+        for(let i = 1; i < trArr.length; i++) {
+            //判断是奇数行还是偶数行
+            if(i % 2 == 0) {
+                trArr[i].style.backgroundColor = "#e9edf2";
+            } else {
+                trArr[i].style.backgroundColor = "#fbfbfb";
+            }
+
+            let oldColor;
+
+            //给每行的tr标签绑定鼠标移入和移出事件
+            trArr[i].onmouseover = function() {
+                oldColor = this.style.backgroundColor;
+                //将背景颜色改为红色
+                this.style.backgroundColor = "pink";
+            }
+
+            trArr[i].onmouseout = function() {
+                this.style.backgroundColor = oldColor;
+            }
+        }
+
+    </script>
+</body>
+</html>

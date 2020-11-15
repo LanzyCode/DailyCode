@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        div {
+            width: 500px;
+            height: 500px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+<div></div>
+
+<script>
+    //给div绑定事件（鼠标移入，鼠标移除事件）
+    //1，获取div元素对象
+    let divObj = document.getElementsByTagName("div")[0];
+    //2,绑定鼠标移入事件
+    divObj.onmouseover = function() {
+        //将div的背景色该为绿色
+        this.style.backgroundColor = "green"; //表示的就是事件源对象
+    }
+
+    //3,绑定鼠标移除事件
+    divObj.onmouseout = function() {
+        //将div的背景色该为绿色
+        this.style.backgroundColor = "red";
+    }
+</script>
+</body>
+</html>
