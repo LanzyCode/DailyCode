@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //构造方法
+    //1. Date()  根据当前时间创建对象
+    let d1 = new Date();
+    document.write(d1 + "<br>");
+
+    //2. Date(value) 根据指定毫秒值创建对象
+    let d2 = new Date(10000);
+    document.write(d2 + "<br>");
+
+    //3. Date(year,month,[day,hours,minutes,seconds,milliseconds]) 根据指定字段创建对象(月份是0~11)
+    let d3 = new Date(2222,2,2,20,20,20);
+    document.write(d3 + "<br>");
+
+    //成员方法
+    //1. getFullYear() 获取年份
+    document.write(d3.getFullYear() + "<br>");
+
+    //2. getMonth() 获取月份
+    document.write(d3.getMonth() + "<br>");
+
+    //3. getDate() 获取天数
+    document.write(d3.getDate() + "<br>");
+
+    //4. toLocaleString() 返回本地日期格式的字符串
+    document.write(d3.toLocaleString());
+</script>
+</html>

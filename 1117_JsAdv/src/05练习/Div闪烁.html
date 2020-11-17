@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Div闪烁</title>
+    <style type="text/css">
+        #box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #fff;
+            width: 200px;
+            height: 200px;
+            background: red;
+            cursor: pointer;
+            letter-spacing: 5px;
+            text-align: center;
+            font: 12px/200px Arial;
+            margin: -100px 0 0 -100px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="box">点击我就闪</div>
+
+<script>
+    //点击DIV，div闪烁三次
+    //1,获取div元素对象
+    var divObj = document.getElementById("box");
+    //2,绑定事件
+    var id;
+    divObj.onclick = function() {
+        //再次点击div时，先清除上一次的定时器
+        clearInterval(id);
+        //设置定时器，让div显示和隐藏
+        id = setInterval(fun,100); //设置定时器，每200毫秒执行一次fun方法
+    }
+
+    var num = 6; //闪烁三次，就意味着fun函数调用6次
+    function fun() {
+        if(num % 2 == 0) {
+            divObj.style.display = "none";
+        } else {
+            divObj.style.display = "block";
+        }
+        num --;
+        if(num <= 0) {
+            //清除定时器
+            clearInterval(id);
+            num = 6;
+        }
+    }
+
+</script>
+</body>
+</html>

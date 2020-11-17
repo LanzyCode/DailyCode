@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegExp</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //1.验证手机号
+    //规则：第一位1，第二位358，第三到十一位必须是数字。总长度11
+    let reg1 = /^[1][358][0-9]{9}$/;
+    document.write(reg1.test("18688888888") + "<br>");
+
+    //2.验证用户名
+    //规则：字母、数字、下划线组成。总长度4~16
+    let reg2 = /^[a-zA-Z_0-9]{4,16}$/;
+    document.write(reg2.test("zhang_san123"));
+</script>
+</html>

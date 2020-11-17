@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //定义天气对象
+    let weather = {
+        city : "北京",
+        date : "2088-08-08",
+        wendu : "10° ~ 23°",
+        shidu : "22%"
+    };
+
+    //1.将天气对象转换为JSON格式的字符串
+    let str = JSON.stringify(weather);
+    document.write(str + "<br>");
+
+    //2.将JSON格式字符串解析成JS对象
+    let weather2 = JSON.parse(str);
+    document.write("城市：" + weather2.city + "<br>");
+    document.write("日期：" + weather2.date + "<br>");
+    document.write("温度：" + weather2.wendu + "<br>");
+    document.write("湿度：" + weather2.shidu + "<br>");
+</script>
+</html>

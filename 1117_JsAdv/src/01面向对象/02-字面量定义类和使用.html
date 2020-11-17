@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字面量定义类和使用</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //定义person
+    let person = {
+        name : "张三",
+        age : 23,
+        hobby : ["听课","学习"],
+
+        eat : function() {
+            document.write("吃饭...");
+        }
+    };
+
+    //使用person
+    document.write(person.name + "," + person.age + "," + person.hobby[0] + "," + person.hobby[1] + "<br>");
+    person.eat();
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //1. 构造方法创建字符串对象
+    let s1 = new String("hello");
+    document.write(s1 + "<br>");
+
+    //2. 直接赋值
+    let s2 = "hello";
+    document.write(s2 + "<br>");
+
+    //属性
+    //1. length   获取字符串的长度
+    document.write(s2.length + "<br>");
+
+    //成员方法
+    //1. charAt(index)     获取指定索引处的字符
+    document.write(s2.charAt(1) + "<br>");
+
+    //2. indexOf(value)    获取指定字符串出现的索引位置
+    document.write(s2.indexOf("l") + "<br>");
+
+    //3. substring(start,end)   根据指定索引范围截取字符串(含头不含尾)
+    document.write(s2.substring(2,4) + "<br>");
+
+    //4. split(value)   根据指定规则切割字符串，返回数组
+    let s3 = "张三,23,男";
+    let arr = s3.split(",");
+    for(let i = 0; i < arr.length; i++) {
+        document.write(arr[i] + "<br>");
+    }
+
+    //5. replace(old,new)   使用新字符串替换老字符串
+    let s4 = "你会不会跳伞啊？让我落地成盒。你妹的。";
+    let s5 = s4.replace("你妹的","***");
+    document.write(s5 + "<br>");
+</script>
+</html>

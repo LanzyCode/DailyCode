@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>二级联动</title>
+</head>
+<body>
+
+    <div style="text-align: center">
+        <select id="provice">
+            <option>--请选择省份--</option>
+            <option>陕西</option>
+            <option>北京</option>
+            <option>四川</option>
+        </select>
+
+        <select id="city">
+            <option>--请选择城市--</option>
+           <!-- <option>未央区</option>
+            <option>碑林区</option>
+            <option>莲湖区</option>-->
+        </select>
+    </div>
+
+    <script>
+
+        //存储各省份下的城市数据
+        let citys = [
+            [],
+            ["西安市","咸阳市","渭南市","宝鸡市"],
+            ["朝阳区","海淀区","丰台区","昌平区"],
+            ["成都市","宜宾市","绵阳市"]
+            ];
+
+        //事件： onchange
+        //1,获取省份的下拉列表对象
+        let proviceObj = document.getElementById("provice");
+
+        //获取第二个下拉列表对象
+        let cityObj = document.getElementById("city");
+
+        //2,绑定onchange事件
+        proviceObj.onchange = function() {
+            //问题： 我怎么知道你选择的是哪个省份？ selectedIndex属性可以获取选择的下拉列表项
+
+            //定义字符串便令，用于拼接option标签字符串
+            let optionsStr = "<option>--请选择城市--</option>";
+            //从二维数组中获取选中省份所对应的城市数组
+            let arr = citys[this.selectedIndex];
+            //遍历数组，获取到每一个城市拼接都option标签中
+            for(let i = 0; i < arr.length; i++) {
+                optionsStr += "<option>" + arr[i] + "</option>";
+            }
+            //将拼接好的字符串写到第二个下拉列表的标签体部分
+            cityObj.innerHTML = optionsStr;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类的定义和使用</title>
+</head>
+<body>
+    
+</body>
+<script>
+    //定义Person类
+    class Person{
+        //构造方法
+        constructor(name,age){
+            this.name = name;
+            this.age = age;
+        }
+
+        //show方法
+        show(){
+            document.write(this.name + "," + this.age + "<br>");
+        }
+
+        //eat方法
+        eat(){
+            document.write("吃饭...");
+        }
+    }
+
+    //使用Person类
+    let p = new Person("张三",23);
+    p.show();
+    p.eat();
+</script>
+</html>

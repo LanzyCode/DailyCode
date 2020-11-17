@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // Map()   创建Map集合对象
+    let map = new Map();
+
+    // set(key,value)  添加元素
+    map.set("张三",23);
+    map.set("李四",24);
+    map.set("王五",25);
+
+    // size属性     获取集合的长度
+    document.write(map.size + "<br>");
+
+    // get(key)     根据key获取value
+    document.write(map.get("李四") + "<br>");
+
+    // entries()    获取迭代器对象
+    let et = map.entries();
+    for(let i = 0; i < map.size; i++){
+        document.write(et.next().value + "<br>");
+    }
+
+    // delete(key)  根据key删除键值对
+    document.write(map.delete("李四") + "<br>");
+    let et2 = map.entries();
+    for(let i = 0; i < map.size; i++){
+        document.write(et2.next().value + "<br>");
+    }
+</script>
+</html>

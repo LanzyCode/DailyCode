@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // Set()   创建集合对象
+    let s = new Set();
+
+    // add(元素)   添加元素
+    s.add("a");
+    s.add("b");
+    s.add("c");
+    s.add("c");
+
+    // size属性    获取集合的长度
+    document.write(s.size + "<br>");    // 3
+
+    // keys()      获取迭代器对象
+    let st = s.keys();
+    for(let i = 0; i < s.size; i++){
+        document.write(st.next().value + "<br>");
+    }
+
+    // delete(元素) 删除指定元素
+    document.write(s.delete("c") + "<br>");
+    let st2 = s.keys();
+    for(let i = 0; i < s.size; i++){
+        document.write(st2.next().value + "<br>");
+    }
+</script>
+</html>
