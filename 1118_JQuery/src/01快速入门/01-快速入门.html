@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>快速入门</title>
+</head>
+<body>
+    <div id="div">我是div</div>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    // JS方式，通过id属性值来获取div元素
+    let jsDiv = document.getElementById("div");
+    //alert(jsDiv);
+    //alert(jsDiv.innerHTML);
+
+    // jQuery方式，通过id属性值来获取div元素
+    let jqDiv = $("#div");
+    alert(jqDiv);
+    alert(jqDiv.html());
+</script>
+</html>
