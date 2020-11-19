@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户搜索</title>
+    <style type="text/css">
+        .content {
+            width: 643px;
+            margin: 100px auto;
+            text-align: center;
+        }
+
+        input[type='text'] {
+            width: 530px;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        input[type='button'] {
+            width: 100px;
+            height: 46px;
+            background: #38f;
+            border: 0;
+            color: #fff;
+            font-size: 15px
+        }
+
+        .show {
+            position: absolute;
+            width: 535px;
+            height: 100px;
+            border: 1px solid #999;
+            border-top: 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<form autocomplete="off">
+    <div class="content">
+        <img src="img/logo.jpg">
+        <br/><br/>
+        <input type="text" id="username">
+        <input type="button" value="搜索一下">
+        <!--用于显示联想的数据-->
+        <div id="show" class="show"></div>
+    </div>
+</form>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    //1.为用户名输入框绑定键入响应事件
+    $("#username").on('input',function () {
+        //2.获取输入的用户名
+        let username = $("#username").val();
+
+        //3.判断用户名是否为空
+        if(username == null || username == "") {
+            //4.如果为空，将联想框隐藏
+            $("#show").hide();
+            return;
+        }
+
+        //5.如果不为空，发送AJAX请求。并将数据显示到联想框
+        $.ajax({
+            //请求的资源路径
+            url:"userServlet",
+            //请求参数
+            data:{"username":username},
+            //请求方式
+            type:"POST",
+            //响应数据形式
+            dataType:"json",
+            //请求成功后的回调函数
+            success:function (data) {
+                //将返回的数据显示到show的div
+                let names = "";
+                for(let i = 0; i < data.length; i++) {
+                    names += "<div>"+data[i].name+"</div>";
+                }
+                $("#show").html(names);
+                $("#show").show();
+            }
+        });
+    });
+
+
+</script>
+</html>
