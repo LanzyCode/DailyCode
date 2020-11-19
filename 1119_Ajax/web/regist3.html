@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户注册</title>
+</head>
+<body>
+    <form autocomplete="off">
+        姓名：<input type="text" id="username">
+        <span id="uSpan"></span>
+        <br>
+        密码：<input type="password" id="password">
+        <br>
+        <input type="submit" value="注册">
+    </form>
+</body>
+<script src="js/jquery-3.3.1.min.js"></script>
+<script>
+    //1.为用户名绑定失去焦点事件
+    $("#username").blur(function () {
+        let username = $("#username").val();
+        //2.jQuery的POST方式实现AJAX
+        $.post(
+            //请求的资源路径
+            "userServlet",
+            //请求参数
+            "username=" + username,
+            //回调函数
+            function (data) {
+                //将响应的数据显示到span标签
+                $("#uSpan").html(data);
+            },
+            //响应数据形式
+            "text"
+        );
+    });
+</script>
+</html>
