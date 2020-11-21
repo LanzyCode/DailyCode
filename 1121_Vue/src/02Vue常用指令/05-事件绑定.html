@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>事件绑定</title>
+</head>
+<body>
+    <div id="div">
+        <div>{{name}}</div>
+        <button v-on:click="change()">改变div的内容1</button>
+        <button v-on:dblclick="change()">改变div的内容2</button>
+
+        <button @click="change()">改变div的内容3</button>
+        <button onclick="changeMe()">改变div的内容4</button>
+
+    </div>
+</body>
+<script src="js/vue.js"></script>
+<script>
+    let vue = new Vue({
+        el:"#div",
+        data:{
+            name:"黑马程序员"
+        },
+        methods:{
+            change(){
+                this.name = "传智播客"
+            }
+        }
+    });
+
+    function changeMe() {
+        vue.name="传智播客"
+    }
+</script>
+</html>
