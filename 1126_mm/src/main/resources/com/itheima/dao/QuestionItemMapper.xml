@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.QuestionItemMapper">
+
+    <select id="findByQuestionId" resultMap="baseMapper">
+        select * from st_question_item where question_id = #{questionId}
+    </select>
+
+    <delete id="deleteByQuestionId" parameterType="string">
+        delete from st_question_item where question_id = #{id}
+    </delete>
+    
+    
+    <insert id="add" parameterType="questionItem">
+        insert into st_question_item values (#{id},#{questionId},#{content},#{imgUrl},#{isRight})
+    </insert>
+
+
+    <resultMap id="baseMapper" type="questionItem">
+        <id property="id" column="id"></id>
+        <result property="questionId" column="question_id"></result>
+        <result property="content" column="content"></result>
+        <result property="imgUrl" column="img_url"></result>
+        <result property="isRight" column="is_right"></result>
+
+    </resultMap>
+</mapper>

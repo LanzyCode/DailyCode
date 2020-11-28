@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>角色管理</title>
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/vue.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/axios-0.18.0.js"></script>
+  <script src="js/token.js"></script>
+  <style>
+    .el-header{
+      background-color: #545c64;
+    }
+    .header-img{
+      width: 100px;
+      margin-top:20px;
+    }
+  </style>
+</head>
+<body>
+<div id="div">
+<template>
+  <div class="dept-box">
+    <el-row>
+      <el-col :span="24">
+        <div class="tool-box">
+          <el-button type="primary" icon="el-icon-circle-plus-outline" size="small" @click="openFormToAdd">新增</el-button>
+        </div>
+      </el-col>
+    </el-row>
+    <el-table :data="list" style="width: 100%">
+      <el-table-column
+              prop="name"
+              label="角色名">
+      </el-table-column>
+      <el-table-column label="操作" fixed="right" width="300">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            plain
+            @click="openFormToUpdate(scope.$index, scope.row)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            plain
+            @click="openModuleFormToUpdate(scope.$index, scope.row)">权限</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="openToDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    <el-dialog :title="dialogTitle" width="600px" :visible.sync="formVisible" @close="closeForm('form')">
+      <el-form :model="form" :rules="rules" ref="form">
+        <el-form-item label="名称" prop="name" label-width="80px">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="formVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmForm('form')">确 定</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog title="编辑权限" width="600px" :visible.sync="moduleFormVisible">
+      <el-tree :show-checkbox="true" :data="modules" :props="{label:'name'}" :expand-on-click-node="false"
+               ref="tree" node-key="moduleId" default-expand-all></el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="moduleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="confirmModuleForm()">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+</div>
+<script>
+let vue = new Vue({
+  el:"#div",
+  data: {
+    list: [], /* 表示当前页数据 */
+    page: 1, /* 表示页号 */
+    total: 0, /* 总记录数 */
+    backup: {}, /* 修改前保存 form 原始数据, 新增前用来恢复 */
+    form: {
+      roleId:'',
+      name:''
+    }, /* 新增和修改表单数据, 必须和后台用来接收数据的 java bean 相对应, 并注意数据类型（日期在前台用字符串） */
+    formVisible: false, /* 控制新增和修改表单可见性 */
+    dialogTitle: '', /* 控制新增和修改表单标题 */
+    rules: {
+      name: [
+        { required: true, message: '请输入名称', trigger: 'blur' },
+        { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+      ]
+    }, /* 表单校验规则 */
+    /*编辑模块*/
+    moduleFormVisible: false,
+    currentRoleId: '',
+    modules: []
+  },
+  mounted () {
+    this.findAll();
+    this.findAllModules();
+  }, /* data 初始化操作 */
+  methods: {
+    findAllModules () {
+      axios.get(`http://localhost:8080/api/module/findAll`).then(res => {
+        this.modules = res.data
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    findAll () {
+      axios.get(`http://localhost:8080/api/role/findAll`).then(res => {
+        this.list = res.data
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    delete (id) {
+      axios.get(`http://localhost:8080/api/role/delete?roleId=${id}`).then(res => {
+        this.findAll()
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    add (formData) {
+      axios.post(`http://localhost:8080/api/role/add`, formData).then(res => {
+        this.findAll()
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    update (formData) {
+      axios.post(`http://localhost:8080/api/role/update`, formData).then(res => {
+        this.findAll()
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    dateToString(d) {
+      return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate()
+    },      
+    openToDelete (index, row) {
+      this.$confirm(`确定删除 【${row.name}】 吗?`, '提示', {
+        type: 'warning'
+      }).then(() => {
+        this.delete(row.roleId);
+        this.$message({
+          type: 'success',
+          message: '删除成功!'
+        })
+      }).catch(()=>{})
+    },
+    prepareFormData() {
+      let formData = new FormData()
+      for(let k in this.form) {
+        if (this.form.hasOwnProperty(k)) {
+          let v = this.form[k]
+          if(v != null) {
+            formData.append(k, v)
+          }
+        }
+      }
+      return formData
+    },
+    openFormToAdd () {
+      this.dialogTitle = "新增"
+      this.formVisible = true
+      Object.assign(this.backup, this.form)
+    },
+    openFormToUpdate (index, row) {
+      this.dialogTitle = "修改"
+      this.formVisible = true
+      Object.assign(this.backup, this.form)
+      this.form = Object.assign({}, row)
+    },
+    confirmForm (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          let id = this.form.roleId
+          let formData = this.prepareFormData();
+          if (id) {
+            this.update(formData);
+          } else {
+            this.add(formData);
+          }
+          this.formVisible = false
+          this.$message({
+            type: 'success',
+            message: id ? '修改成功！' : '新增成功！'
+          })
+        }
+      })
+    },
+    closeForm (formName) {
+      this.$refs[formName].clearValidate()
+      Object.assign(this.form, this.backup)
+    },
+    openModuleFormToUpdate(index, row) {
+      this.moduleFormVisible = true
+      this.currentRoleId = row.roleId
+      axios.get(`http://localhost:8080/api/module/findBy?roleId=${row.roleId}`).then(res => {
+        // 根据 roleId 查询这个角色对应的权限id的数组
+        this.$refs.tree.setCheckedKeys(res.data,true);
+      }).catch((err) => {
+        console.error(err)
+      })
+    },
+    confirmModuleForm() {
+      let keys = this.$refs.tree.getCheckedKeys(true) // [101,102] 格式是 json格式
+      axios.post(`http://localhost:8080/api/role/module/update?roleId=${this.currentRoleId}`, keys).then(res => {
+        this.moduleFormVisible = false
+        this.$message({
+          type: 'success',
+          message: "权限更新成功"
+        })
+      }).catch((err) => {
+        console.error(err)
+      })
+    }
+  }
+});
+</script>
+
+<style>
+  .dept-box {
+    width: 100%;
+  }
+  .dept-box .tool-box {
+    padding: 10px 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .dept-box .el-pagination {
+    margin-top: 20px;
+  }
+</style>
+</body>
+</html>

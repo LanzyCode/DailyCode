@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.QuestionMapper">
+
+    <select id="findAll" resultMap="baseMapper">
+        select
+            q.*,c.name catalog_name,cy.name company_name
+        from
+            st_question q,
+            st_company cy,
+            st_catalog c
+        where
+            q.catalog_id = c.id
+            and q.company_id = cy.id
+    </select>
+
+    <insert id="add" parameterType="question">
+        insert into st_question(id,subject,company_id,catalog_id,create_time,state,difficulty,picture) values (#{id},#{subject},#{companyId},#{catalogId},#{createTime},#{state},#{difficulty},#{picture})
+    </insert>
+
+    <update id="update" parameterType="question">
+        update st_question set subject=#{subject},company_id=#{companyId},catalog_id=#{catalogId},create_time=#{createTime},state=#{state},difficulty=#{difficulty},picture=#{picture} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from st_question where id = #{id}
+    </delete>
+
+
+    <resultMap id="baseMapper" type="question">
+        <id property="id" column="id"></id>
+        <result property="subject" column="subject"></result>
+        <result property="companyName" column="company_name"></result>
+        <result property="catalogName" column="catalog_name"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="state" column="state"></result>
+        <result property="difficulty" column="difficulty"></result>
+        <result property="picture" column="picture"></result>
+
+    </resultMap>
+</mapper>

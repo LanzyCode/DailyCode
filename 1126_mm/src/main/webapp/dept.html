@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>部门管理</title>
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/vue.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/axios-0.18.0.js"></script>
+  <script src="js/token.js"></script>
+  <style>
+    .el-header{
+      background-color: #545c64;
+    }
+    .header-img{
+      width: 100px;
+      margin-top:20px;
+    }
+  </style>
+</head>
+<body>
+<div id="div">
+  <template>
+    <div class="dept-box">
+      <el-row>
+        <el-col :span="24">
+          <div class="tool-box">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" size="small" @click="openFormToAdd">新增</el-button>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-table
+              :data="list"
+              row-key="deptId"
+              style="width: 100%">
+        <el-table-column
+                prop="deptName"
+                label="名称"
+                width="500">
+        </el-table-column>
+        <el-table-column
+                label="状态">
+          <template slot-scope="scope">
+            {{ scope.row.state ? '启用' : '禁用' }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" fixed="right" width="150">
+          <template slot-scope="scope">
+            <el-button
+                    size="mini"
+                    type="primary"
+                    plain
+                    @click="openFormToUpdate(scope.row)">编辑</el-button>
+            <el-button
+                    size="mini"
+                    type="danger"
+                    @click="openToDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+
+      <el-dialog :title="dialogTitle" width="600px" :visible.sync="formVisible" @close="closeForm('form')">
+        <el-form :model="form" :rules="rules" ref="form">
+          <el-form-item label="名称" prop="name" label-width="50px">
+            <el-input v-model="form.deptName" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="上级" label-width="50px">
+            <el-tree :data="list" :props="{label:'deptName'}" :expand-on-click-node="false"
+                     ref="tree" node-key="deptId" highlight-current></el-tree>
+          </el-form-item>
+          <el-form-item label="状态" label-width="50px">
+            <el-switch v-model="form.state" active-color="#13ce66"
+                       inactive-color="#ff4949"
+                       :active-value="1"
+                       :inactive-value="0"></el-switch>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="formVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmForm('form')">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
+  </template>
+</div>
+<script>
+  let vue = new Vue({
+    el:"#div",
+    data: {
+      list: [
+        /*{
+          deptId:100,
+          deptName:"集团总部",
+          state:1,
+          children:[
+            {deptId:100101,deptName:"顺义校区", state:1,children:[{deptId:100101101,deptName:"顺义教研部", state:1},{deptId:100101102,deptName:"顺义人事部", state:1}]},
+            {deptId:100102,deptName:"昌平校区", state:1,children:[{deptId:100102101,deptName:"昌平教研部", state:1},{deptId:100102102,deptName:"昌平学工部", state:1},{deptId:100102103,deptName:"昌平行政部", state:1}]},
+            {deptId:100103,deptName:"总部研究院", state:1},
+            {deptId:100104,deptName:"总部总裁办公室", state:1},
+            {deptId:100105,deptName:"总部博学谷", state:1},
+            {deptId:100106,deptName:"总部人事部", state:1},
+            {deptId:100107,deptName:"总部财务部", state:1},
+          ]
+        }*/
+
+      ], /* 表示当前页数据 */
+      form: {
+        deptId: '',
+        deptName: '',
+        parentId: null,
+        state: 0
+      }, /* 新增和修改表单数据, 必须和后台用来接收数据的 java bean 相对应, 并注意数据类型（日期在前台用字符串） */
+      formVisible: false, /* 控制新增和修改表单可见性 */
+      dialogTitle: '', /* 控制新增和修改表单标题 */
+      rules: {
+        /*name: [
+          { required: true, message: '请输入名称', trigger: 'blur' },
+          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+        ]*/
+      } /* 表单校验规则 */
+    },
+    mounted () {
+      this.findAll()
+    }, /* data 初始化操作 */
+    methods: {
+      findAll () {
+        axios.get('/deptServlet?method=findAll').then((resp) => {
+          if(resp.data.flag) {
+            this.list = resp.data.list;
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        }).catch((err) => {
+           this.$message.error("查询失败");
+        })
+      },
+      delete (id) {
+        axios.get('/deptServlet?method=delete&deptId=' + id).then((resp) => {
+          if(resp.data.flag) {
+            this.findAll();
+            this.$message({
+              type:"success",
+              message:"删除功"
+            });
+          } else {
+            this.$message.error(resp.data.message);
+          }
+
+        }).catch((err) => {
+          this.$message.error("删除失败");
+        })
+      },
+      add (formData) {
+        axios.post('/deptServlet?method=add', formData).then((resp) => {
+          if(resp.data.flag) {
+            this.findAll();
+            this.$message({
+              type:"success",
+              message:"添加成功"
+            });
+          } else {
+            this.$message.error(resp.data.message);
+          }
+
+        }).catch((err) => {
+          this.$message.error("修改失败");
+        })
+      },
+      update (formData) {
+        axios.post('/deptServlet?method=update', formData).then((resp) => {
+          if(resp.data.flag) {
+            this.findAll();
+            this.$message({
+              type:"success",
+              message:"修改成功"
+            });
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        }).catch((err) => {
+          this.$message.error("修改失败");
+        })
+      },
+      openToDelete (row) {
+        this.$confirm('确定删除 【'+row.deptName+'】 吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.delete(row.deptId);
+        }).catch(()=>{})
+      },
+      getStringParameter(formData) {
+        let param = "";
+        for(let property in formData) {
+          if(formData[property] != null) {
+            param += property + "=" + formData[property] + "&"
+          }
+        }
+        param = param.substring(0,param.length-1);
+        return param;
+      },
+      openFormToAdd () {
+        this.dialogTitle = '新增';
+        this.formVisible = true;
+        this.form = {};
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(null)
+        })
+      },
+      openFormToUpdate (row) {
+        this.dialogTitle = '修改';
+        this.formVisible = true;
+        this.form = row;
+        this.$nextTick(() => {
+          this.$refs.tree.setCurrentKey(row.parentId)
+        })
+      },
+      confirmForm (formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            let id = this.form.deptId;
+            this.form.parentId = this.$refs.tree.getCurrentKey();
+            this.form.children = null;
+            let formData = this.getStringParameter(this.form);
+            if (id) {
+              this.update(formData)
+            } else {
+              this.add(formData);
+            }
+            this.formVisible = false;
+          }
+        })
+      },
+      closeForm (formName) {
+        this.$refs[formName].clearValidate()
+        Object.assign(this.form, this.backup)
+      },
+    }
+  });
+</script>
+
+<style>
+  .dept-box {
+    width: 100%;
+  }
+  .dept-box .tool-box {
+    padding: 10px 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .dept-box .el-pagination {
+    margin-top: 20px;
+  }
+</style>
+</body>
+</html>

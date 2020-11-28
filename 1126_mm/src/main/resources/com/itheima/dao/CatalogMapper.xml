@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.CatalogMapper">
+
+    <select id="findAll" resultMap="baseMapper">
+        select * from st_catalog
+    </select>
+
+    <insert id="add" parameterType="user">
+        insert into st_catalog(id,name,state,remark) values (#{id},#{name},#{state},#{remark})
+    </insert>
+
+    <update id="update" parameterType="user">
+        update st_catalog set name=#{name},state=#{state},remark=#{remark} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from st_catalog where id = #{id}
+    </delete>
+
+    <select id="findCatalogIdByCatalogName" resultType="string">
+        select id from st_catalog where name=#{name}
+    </select>
+
+
+    <resultMap id="baseMapper" type="catalog">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="state" column="state"></result>
+        <result property="remark" column="remark"></result>
+    </resultMap>
+</mapper>

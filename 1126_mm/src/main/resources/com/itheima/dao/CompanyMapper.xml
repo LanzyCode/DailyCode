@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.CompanyMapper">
+
+    <select id="findAll" resultType="company">
+        select * from st_company
+    </select>
+
+    <insert id="add" parameterType="company">
+        <!--insert into st_company values (#{id},#{name},#{expirationDate},#{address},#{licenseId},#{representative},#{phone},#{companySize},#{industry},#{remarks},#{state},#{city})-->
+        insert into st_company values (#{id},#{name},null,#{address},null,#{representative},#{phone},null,#{industry},null,#{state},#{city})
+    </insert>
+
+    <update id="update" parameterType="company">
+        <!--update st_company set name = #{name},expiration_date=#{expirationDate},address=#{address},license_id=#{licenseId},representative=#{representative},phone=#{phone}
+        ,company_size=#{companySize},industry=#{industry},remarks=#{remarks},state=#{state},city=#{city}-->
+
+        update st_company set name = #{name},address=#{address},representative=#{representative},phone=#{phone}
+        ,industry=#{industry},state=#{state},city=#{city} where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from st_company where id = #{id}
+    </delete>
+
+    <select id="findCompanyIdByCompanyName" resultType="string">
+        select id from st_company where name = #{name}
+    </select>
+
+    <resultMap id="baseMapper" type="company">
+        <id property="id" column="id"></id>
+        <result property="name" column="name"></result>
+        <result property="expirationDate" column="expiration_date"></result>
+        <result property="address" column="address"></result>
+        <result property="licenseId" column="license_id"></result>
+        <result property="representative" column="representative"></result>
+        <result property="phone" column="phone"></result>
+        <result property="companySize" column="company_size"></result>
+        <result property="industry" column="industry"></result>
+        <result property="remarks" column="remarks"></result>
+        <result property="state" column="state"></result>
+        <result property="city" column="city"></result>
+    </resultMap>
+</mapper>

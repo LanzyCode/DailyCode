@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--MyBatis配置文件-->
+<configuration>
+    <!--定义jdbc.property[数据库基本四项]-->
+    <properties resource="jdbc.properties"></properties>
+    <!--指定别名-->
+    <typeAliases>
+        <!--指定实体类所在的包,此时包下所有类都会注册别名,别名就是类名称-->
+        <package name="com.itheima.domain"></package>
+    </typeAliases>
+    <!--指定默认环境-->
+    <environments default="mysql">
+        <!--指定数据环境为MySQL-->
+        <environment id="mysql">
+            <!--指定事务的类型-->
+            <transactionManager type="JDBC"></transactionManager>
+            <!--指定数据源信息-->
+            <dataSource type="POOLED">
+                <!--配置连接数据库的四个基本信息-->
+                <property name="driver" value="${jdbc.driver}"></property>
+                <property name="url" value="${jdbc.url}"></property>
+                <property name="username" value="${jdbc.username}"></property>
+                <property name="password" value="${jdbc.password}"></property>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--指定注解开发-->
+    <mappers>
+        <package name="com.itheima.dao"/>
+    </mappers>
+</configuration>

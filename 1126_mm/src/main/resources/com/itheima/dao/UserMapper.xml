@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itheima.dao.UserMapper">
+
+    <select id="findAll" resultMap="baseMapper">
+        select u.*,d.dept_name from ss_user u, ss_dept d where u.dept_id = d.dept_id
+    </select>
+
+    <insert id="add" parameterType="user">
+        insert into ss_user(user_id,user_name,password,dept_id,gender,join_date,state) values (#{userId},#{userName},#{password},#{deptId},#{gender},#{joinDate},#{state})
+    </insert>
+
+    <update id="update" parameterType="user">
+        update ss_user set user_name=#{userName},password=#{password},dept_id=#{deptId},gender=#{gender},join_date=#{joinDate},state=#{state} where user_id = #{userId}
+    </update>
+
+    <delete id="delete">
+        delete from ss_user where user_id = #{id}
+    </delete>
+
+    <select id="findByUsernameAndPassword"  resultMap="baseMapper">
+        select * from ss_user where user_name = #{username} and password = #{password}
+    </select>
+
+
+    <resultMap id="baseMapper" type="user">
+        <id property="userId" column="user_id"></id>
+        <result property="userName" column="user_name"></result>
+        <result property="password" column="password"></result>
+        <result property="deptId" column="dept_id"></result>
+        <result property="gender" column="gender"></result>
+        <result property="joinDate" column="join_date"></result>
+        <result property="state" column="state"></result>
+        <result property="deptName" column="dept_name"></result>
+
+    </resultMap>
+</mapper>

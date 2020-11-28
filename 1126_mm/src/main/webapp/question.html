@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>题目管理</title>
+  <link rel="stylesheet" href="css/index.css">
+  <script src="js/vue.js"></script>
+  <script src="js/index.js"></script>
+  <script src="js/axios-0.18.0.js"></script>
+  <script src="js/token.js"></script>
+  <style>
+    .el-header{
+      background-color: #545c64;
+    }
+    .header-img{
+      width: 100px;
+      margin-top:20px;
+    }
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .avatar-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 378px;
+      height: 178px;
+      line-height: 178px;
+      text-align: center;
+    }
+    .avatar {
+      width: 378px;
+      height: 178px;
+      display: block;
+    }
+    .item-avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .item-avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 155px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+    }
+    .item-avatar {
+      width: 155px;
+      height: 40px;
+      display: block;
+    }
+    .demo-input {
+      width: 180px; float: left; height: 40px; margin-right: 2px;
+    }
+  </style>
+</head>
+<body>
+<div id="div">
+  <template>
+    <div class="dept-box">
+      <el-row>
+        <el-col :span="24">
+          <div class="tool-box">
+            <el-button type="primary" icon="el-icon-circle-plus-outline" size="small" @click="openFormToAdd">新增</el-button>
+          </div>
+        </el-col>
+      </el-row>
+
+      <el-table :data="list" style="width: 100%">
+        <el-table-column
+                prop="subject"
+                label="题干"
+                width="200">
+        </el-table-column>
+        <el-table-column
+                label="难度"
+                width="160">
+          <template slot-scope="scope">
+            <el-rate disabled v-model="scope.row.difficulty"></el-rate>
+          </template>
+        </el-table-column>
+        <el-table-column
+                prop="companyName"
+                label="企业"
+                width="100">
+        </el-table-column>
+        <el-table-column
+                prop="catalogName"
+                label="类别"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="createTime"
+                label="添加时间"
+                width="150">
+        </el-table-column>
+        <el-table-column
+                label="状态">
+          <template slot-scope="scope">
+            {{ scope.row.state ? '启用' : '禁用' }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" fixed="right" width="230">
+          <template slot-scope="scope">
+            <el-button size="mini" type="primary" plain @click="openFormToUpdate(scope.row)">编辑</el-button>
+            <el-button size="mini" type="primary" plain @click="openItemFormToUpdate(scope.row)">选项</el-button>
+            <el-button size="mini" type="danger" @click="openToDelete(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        background
+        :current-page="page"
+        :page-size="5"
+        layout="total, prev, pager, next, jumper"
+        :total="total"
+        @current-change="pageChange">
+      </el-pagination>
+
+      <el-dialog :title="dialogTitle" width="600px" :visible.sync="formVisible" @close="closeForm('form')">
+        <el-form :model="form" :rules="rules" ref="form">
+          <el-form-item label="题干" prop="subject" label-width="50px">
+            <el-input v-model="form.subject" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="难度" prop="difficulty" label-width="50px">
+            <el-rate v-model="form.difficulty"></el-rate>
+          </el-form-item>
+          <el-form-item label="企业" label-width="50px">
+            <el-select v-model="form.companyId" placeholder="请选择">
+              <el-option
+                      v-for="item in companies"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="类别" label-width="50px">
+            <el-select v-model="form.catalogId" placeholder="请选择">
+              <el-option
+                      v-for="item in catalogs"
+                      :key="item.id"
+                      :label="item.name"
+                      :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="图片" label-width="50px">
+            <!-- action 对应servlet 地址，此servlet 用来接收上传的图片
+                 :show-file-list 是否显示上传列表（用在上传多个文件时）
+                 :before-upload 上传前的检查操作
+                 :on-success 上传成功后要执行的操作
+
+                 img 用来回显
+                 v-if v-else 的作用就是当有图片时，显示图片，没有图片显示 + 号图标
+            -->
+            <el-upload
+                    class="avatar-uploader"
+                    action="upload"
+                    :show-file-list="false"
+                    :before-upload="beforeUpload"
+                    :on-success="uploadSuccess">
+              <img v-if="form.picture" :src="'upload/' + form.picture" class="avatar">
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+            </el-upload>
+          </el-form-item>
+          <el-form-item label="状态" label-width="50px">
+            <el-switch v-model="form.state" active-color="#13ce66"
+                       inactive-color="#ff4949"
+                       :active-value="1"
+                       :inactive-value="0"></el-switch>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="formVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmForm('form')">确 定</el-button>
+        </div>
+      </el-dialog>
+
+      <el-dialog title="编辑选项" width="800px" :visible.sync="itemFormVisible" @close="closeForm('itemForm')">
+        <el-form :model="itemForm" ref="itemForm">
+          <el-form-item label="题号" prop="questionId" label-width="50px">
+            <el-input v-model="itemForm.questionId" autocomplete="off" readonly></el-input>
+            <el-button type="primary" @click="addItem()">添加选项</el-button>
+          </el-form-item>
+          <el-form-item
+                  :inline="true"
+                  v-for="(item, index) in itemForm.items"
+                  :label="'选项' + index"
+                  :key="item.key"
+                  :prop="'items.' + index + '.value'">
+            <el-input v-model="item.id" autocomplete="off" class="demo-input"></el-input>
+            <el-input v-model="item.content" autocomplete="off" class="demo-input"></el-input>
+            <el-upload
+                    class="item-avatar-uploader demo-input"
+                    :action="'/upload?index=' + index"
+                    :show-file-list="false"
+                    :before-upload="beforeUpload"
+                    :on-success="updateItemSuccess">
+              <img v-if="item.imgUrl" :src="'upload/'+item.imgUrl" class="item-avatar">
+              <i v-else class="el-icon-plus item-avatar-uploader-icon"></i>
+            </el-upload>
+            <el-switch v-model="item.isRight" active-color="#13ce66"
+                       inactive-color="#ff4949"
+                       :active-value="1"
+                       :inactive-value="0"></el-switch>
+            <el-button @click.prevent="deleteItem(item)">删除</el-button>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="itemFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="confirmItemForm()">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
+  </template>
+</div>
+<script>
+  let vue = new Vue({
+    el:"#div",
+    data: {
+      list: [
+        /*{
+          subject:"<p>springmvc，mybatis的执行流程，spring中事物的管理</p>",
+          difficulty:1,
+          companyName:"北京淘宝网",
+          catalogName:"Java基础",
+          createTime:"2019-08-08",
+          state:1
+        },
+        {
+          subject:"<p>简单说明requests.content和requests.text的区别</p>",
+          difficulty:3,
+          companyName:"北京蚂蚁金服",
+          catalogName:"Spring MVC",
+          createTime:"2019-08-08",
+          state:1
+        }*/
+      ], /* 表示当前页数据 */
+      page: 1, /* 表示页号 */
+      total: 0, /* 总记录数 */
+      form: {
+        id: '',
+        subject: '',
+        difficulty: 3,
+        companyId: '',
+        catalogId: '',
+        picture:'',
+        state: 0,
+      }, /* 新增和修改表单数据, 必须和后台用来接收数据的 java bean 相对应, 并注意数据类型（日期在前台用字符串） */
+      formVisible: false, /* 控制新增和修改表单可见性 */
+      dialogTitle: '', /* 控制新增和修改表单标题 */
+      rules: {
+        /*name: [
+          { required: true, message: '请输入名称', trigger: 'blur' },
+          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
+        ]*/
+      }, /* 表单校验规则 */
+      catalogs:[], // 所有类别
+      companies:[], // 所有企业
+      itemForm: {
+        questionId:'',
+        items:[]
+      },
+      itemFormVisible: false
+
+    },
+    mounted () {
+      this.findAll(1);
+      this.findAllCompanies();
+      this.findAllCatalogs();
+    }, /* data 初始化操作 */
+    methods: {
+
+      findAllCatalogs () {
+        axios.get("catalogServlet?method=findAll")
+                .then(resp=>{
+                  this.catalogs = resp.data.list;
+                });
+      },
+      findAllCompanies () {
+        axios.get("companyServlet?method=findAll")
+                .then(resp=>{
+                  this.companies = resp.data.list;
+                });
+      },
+      findAll (page) {
+        axios.get("questionServlet?method=findByPage&currentPage=" + page)
+                .then(resp=>{
+                  this.list = resp.data.pageInfo.list;
+                  this.total = resp.data.pageInfo.total;
+                });
+      },
+      delete (id) {
+        axios.get("questionServlet?method=delete&id=" + id).then(resp=>{
+          if(resp.data.flag) {
+            this.findAll(1);
+            this.$message({
+              type:"success",
+              message:"添加成功"
+            })
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        })
+      },
+      add (formData) {
+        axios.post("questionServlet?method=add",formData).then(resp=>{
+          if(resp.data.flag) {
+            this.findAll(1);
+            this.$message({
+              type:"success",
+              message:"添加成功"
+            })
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        })
+      },
+      update (formData) {
+        axios.post("questionServlet?method=update",formData).then(resp=>{
+          if(resp.data.flag) {
+            this.findAll(1);
+            this.$message({
+              type:"success",
+              message:"修改成功"
+            })
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        })
+      },
+      pageChange(page) {
+        this.findAll(page);
+      },
+      openToDelete (row) {
+        this.$confirm('确定删除该数据吗?', '提示', {
+          type: 'warning'
+        }).then(() => {
+          this.delete(row.id);
+        })
+      },
+      getStringParameter(formData) {
+        let param = "";
+        for(let property in formData) {
+          if(formData[property] != null) {
+            param += property + "=" + formData[property] + "&"
+          }
+        }
+        param = param.substring(0,param.length-1);
+        return param;
+      },
+      openFormToAdd () {
+        this.dialogTitle = '新增';
+        this.formVisible = true;
+        this.form = {};
+      },
+      openFormToUpdate (row) {
+        this.dialogTitle = '修改';
+        this.formVisible = true;
+        this.form = row;
+        this.findCatalogIdByCatalogName(row.catalogName);
+        this.findCompanyIdByCompanyName(row.companyName);
+      },
+      findCatalogIdByCatalogName(name) {
+        axios.get("catalogServlet?method=findCatalogIdByCatalogName&name=" + name).then(resp=>{
+          this.form.catalogId = resp.data.id;
+        })
+      },
+      findCompanyIdByCompanyName(name) {
+        axios.get("companyServlet?method=findCompanyIdByCompanyName&name="+ name).then(resp=>{
+          this.form.companyId = resp.data.id;
+        })
+      },
+      confirmForm (formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            let id = this.form.id;
+            let formData = this.getStringParameter(this.form);
+            if (id) {
+              this.update(formData);
+            } else {
+              this.add(formData);
+            }
+            this.formVisible = false;
+          }
+        })
+      },
+      closeForm (formName) {
+        this.$refs[formName].clearValidate();
+      },
+      beforeUpload(file) {
+        const isJPGorPng = file.type === 'image/jpeg' || file.type === 'image/png';
+        const isLt1M = file.size / 1024 / 1024 < 1;
+        if (!isJPGorPng) {
+          this.$message.error('上传图片只能是 JPG 或 PNG 格式!')
+        }
+        if (!isLt1M) {
+          this.$message.error('上传图片大小不能超过 1MB!')
+        }
+        return isJPGorPng && isLt1M;
+      },
+      uploadSuccess(res) {
+        if(res.flag) {
+          this.form.picture = res.fileName;
+        } else {
+          this.$message.error("上传失败");
+        }
+
+      },
+      /* 题目选项相关 */
+      openItemFormToUpdate (row) {
+        this.itemFormVisible = true;
+        this.itemForm.questionId = row.id;
+        this.findItems(row.id);
+      },
+      findItems(qid) {
+        this.loading = true;
+        axios.get('questionItemServlet?method=findByQuestionId&questionId='+qid).then(resp => {
+          if(resp.data.flag) {
+            this.itemForm.items = resp.data.list;
+          } else {
+            this.$message.error(resp.data.message);
+          }
+        })
+      },
+      addItem() {
+        this.itemForm.items.push({});
+      },
+      deleteItem(item) {
+        let idx = this.itemForm.items.indexOf(item); // 找到索引
+        this.itemForm.items.splice(idx, 1); // 根据索引删除
+      },
+      confirmItemForm () {
+        axios.post('questionItemServlet?method=update&questionId=' + this.itemForm.questionId, this.itemForm.items).then(resp => {
+          this.itemFormVisible = false;
+          if(resp.data.flag) {
+            this.$message({
+              type: 'success',
+              message: '修改成功'
+            })
+          } else {
+            this.$message.error("修改失败");
+          }
+        });
+      },
+      updateItemSuccess(res) {
+        if(res.flag) {
+          this.itemForm.items[res.index].imgUrl = res.fileName;
+        }
+      }
+    }
+  });
+</script>
+
+<style>
+  .dept-box {
+    width: 100%;
+  }
+  .dept-box .tool-box {
+    padding: 10px 10px;
+    border-bottom: 1px solid #eee;
+  }
+  .dept-box .el-pagination {
+    margin-top: 20px;
+  }
+</style>
+</body>
+</html>
