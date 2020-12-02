@@ -3,7 +3,7 @@
 <configuration>
 
     <typeAliases>
-        <package name="com.itheima.domain"/>
+        <package name="com.lanzycode.domain"/>
     </typeAliases>
 
     <plugins>
@@ -24,7 +24,7 @@
     </environments>
 
     <mappers>
-        <package name="com.itheima.dao"/>
+        <package name="com.lanzycode.dao"/>
     </mappers>
 
 </configuration>

@@ -28,18 +28,18 @@ public class CatalogServlet extends HttpServlet {
         String method = request.getParameter("method");
 
         Map result = null;
-        if("findByPage".equals(method)) {
-            result = findByPage(request,response);
-        } else if("findAll".equals(method)) {
+        if ("findByPage".equals(method)) {
+            result = findByPage(request, response);
+        } else if ("findAll".equals(method)) {
             result = findAll(request, response);
-        } else if("add".equals(method)) {
+        } else if ("add".equals(method)) {
             result = add(request, response);
-        } else if("update".equals(method)) {
-            result = update(request,response);
-        } else if("delete".equals(method)) {
-            result = delete(request,response);
-        } else if("findCatalogIdByCatalogName".equals(method)) {
-            result = findCatalogIdByCatalogName(request,response);
+        } else if ("update".equals(method)) {
+            result = update(request, response);
+        } else if ("delete".equals(method)) {
+            result = delete(request, response);
+        } else if ("findCatalogIdByCatalogName".equals(method)) {
+            result = findCatalogIdByCatalogName(request, response);
         }
 
         //创建ObjectMapper对象
@@ -60,11 +60,11 @@ public class CatalogServlet extends HttpServlet {
             String catalogName = request.getParameter("name");
 
             String catalogId = catalogService.findCatalogIdByCatalogName(catalogName);
-            result.put("flag",true);
-            result.put("id",catalogId);
+            result.put("flag", true);
+            result.put("id", catalogId);
         } catch (Exception e) {
-            result.put("flag",false);
-            result.put("message","查询类别失败");
+            result.put("flag", false);
+            result.put("message", "查询类别失败");
             e.printStackTrace();
         }
         return result;
@@ -72,6 +72,7 @@ public class CatalogServlet extends HttpServlet {
 
     /**
      * 分页查询
+     *
      * @param request
      * @param response
      */
@@ -82,10 +83,10 @@ public class CatalogServlet extends HttpServlet {
             //调用方法进行业务逻辑处理
             List<Catalog> list = catalogService.findAll();
 
-            result.put("flag",true);
+            result.put("flag", true);
             result.put("list", list);
         } catch (Exception e) {
-            result.put("flag",false);
+            result.put("flag", false);
             result.put("message", "查询失败");
             e.printStackTrace();
         }
@@ -95,6 +96,7 @@ public class CatalogServlet extends HttpServlet {
 
     /**
      * 分页查询
+     *
      * @param request
      * @param response
      */
@@ -113,10 +115,10 @@ public class CatalogServlet extends HttpServlet {
             //调用方法进行业务逻辑处理
             PageInfo pageInfo = catalogService.findByPage(currentPage);
 
-            result.put("flag",true);
+            result.put("flag", true);
             result.put("pageInfo", pageInfo);
         } catch (Exception e) {
-            result.put("flag",false);
+            result.put("flag", false);
             result.put("message", "查询失败");
             e.printStackTrace();
         }
@@ -126,27 +128,29 @@ public class CatalogServlet extends HttpServlet {
 
     /**
      * 添加功能
+     *
      * @param request
      * @param response
      * @return
      */
-    private Map add(HttpServletRequest request,HttpServletResponse response) {
+    private Map add(HttpServletRequest request, HttpServletResponse response) {
 
         Map result = new HashMap();
-        //封装数据
         try {
+            //获取请求数据
             Map<String, String[]> params = request.getParameterMap();
             //创建Catalog对象
             Catalog catalog = new Catalog();
-            BeanUtils.populate(catalog,params);
-
+            //封装对象
+            BeanUtils.populate(catalog, params);
+            //调用方法进行业务逻辑处理
             catalogService.add(catalog);
             //添加成功
-            result.put("flag",true);
+            result.put("flag", true);
 
         } catch (Exception e) {
-            result.put("flag",false);
-            result.put("message","添加失败");
+            result.put("flag", false);
+            result.put("message", "添加失败");
             e.printStackTrace();
         }
         return result;
@@ -154,11 +158,12 @@ public class CatalogServlet extends HttpServlet {
 
     /**
      * 修改功能
+     *
      * @param request
      * @param response
      * @return
      */
-    private Map update(HttpServletRequest request,HttpServletResponse response) {
+    private Map update(HttpServletRequest request, HttpServletResponse response) {
 
         Map result = new HashMap();
 
@@ -166,15 +171,15 @@ public class CatalogServlet extends HttpServlet {
         try {
             Map<String, String[]> params = request.getParameterMap();
             Catalog catalog = new Catalog();
-            BeanUtils.populate(catalog,params);
+            BeanUtils.populate(catalog, params);
 
             catalogService.update(catalog);
 
             //添加成功
-            result.put("flag",true);
+            result.put("flag", true);
         } catch (Exception e) {
-            result.put("flag",false);
-            result.put("message","修改失败");
+            result.put("flag", false);
+            result.put("message", "修改失败");
             e.printStackTrace();
         }
         return result;
@@ -182,20 +187,21 @@ public class CatalogServlet extends HttpServlet {
 
     /**
      * 删除功能
+     *
      * @param request
      * @param response
      * @return
      */
-    private Map delete(HttpServletRequest request,HttpServletResponse response) {
+    private Map delete(HttpServletRequest request, HttpServletResponse response) {
 
         Map result = new HashMap();
         try {
             String id = request.getParameter("id");
             catalogService.delete(id);
-            result.put("flag",true);
+            result.put("flag", true);
         } catch (Exception e) {
-            result.put("flag",false);
-            result.put("message","删除成功");
+            result.put("flag", false);
+            result.put("message", "删除成功");
             e.printStackTrace();
         }
         return result;

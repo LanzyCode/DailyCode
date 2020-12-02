@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.itheima.dao.CatalogMapper">
+<mapper namespace="com.lanzycode.dao.CatalogMapper">
 
     <select id="findAll" resultMap="baseMapper">
         select * from st_catalog
     </select>
 
-    <insert id="add" parameterType="user">
+    <insert id="add" parameterType="catalog">
         insert into st_catalog(id,name,state,remark) values (#{id},#{name},#{state},#{remark})
     </insert>
 
-    <update id="update" parameterType="user">
+    <update id="update" parameterType="catalog">
         update st_catalog set name=#{name},state=#{state},remark=#{remark} where id = #{id}
     </update>
 
-    <delete id="delete">
+    <delete id="delete" parameterType="string">
         delete from st_catalog where id = #{id}
     </delete>
 

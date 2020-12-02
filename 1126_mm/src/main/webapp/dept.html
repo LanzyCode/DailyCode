@@ -91,21 +91,6 @@
     el:"#div",
     data: {
       list: [
-        /*{
-          deptId:100,
-          deptName:"集团总部",
-          state:1,
-          children:[
-            {deptId:100101,deptName:"顺义校区", state:1,children:[{deptId:100101101,deptName:"顺义教研部", state:1},{deptId:100101102,deptName:"顺义人事部", state:1}]},
-            {deptId:100102,deptName:"昌平校区", state:1,children:[{deptId:100102101,deptName:"昌平教研部", state:1},{deptId:100102102,deptName:"昌平学工部", state:1},{deptId:100102103,deptName:"昌平行政部", state:1}]},
-            {deptId:100103,deptName:"总部研究院", state:1},
-            {deptId:100104,deptName:"总部总裁办公室", state:1},
-            {deptId:100105,deptName:"总部博学谷", state:1},
-            {deptId:100106,deptName:"总部人事部", state:1},
-            {deptId:100107,deptName:"总部财务部", state:1},
-          ]
-        }*/
-
       ], /* 表示当前页数据 */
       form: {
         deptId: '',
@@ -116,10 +101,7 @@
       formVisible: false, /* 控制新增和修改表单可见性 */
       dialogTitle: '', /* 控制新增和修改表单标题 */
       rules: {
-        /*name: [
-          { required: true, message: '请输入名称', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-        ]*/
+
       } /* 表单校验规则 */
     },
     mounted () {
