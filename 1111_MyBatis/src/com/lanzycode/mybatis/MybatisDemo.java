@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 import java.util.List;
 
-public class MybatisDemo {
+public class MybatisDemo{
     @Test
     public void delete() throws Exception{
         //1.加载核心配置文件

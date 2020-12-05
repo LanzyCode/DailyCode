@@ -15,8 +15,8 @@
             <transactionManager type="JDBC"/>
             <!-- 配置如何连接数据库 -->
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/heima_mm?useSSL=false"/>
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306"/>
                 <property name="username" value="root"/>
                 <property name="password" value="Cxcar836"/>
             </dataSource>
