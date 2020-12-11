@@ -3,8 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-        https://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--加载properties配置文件的信息-->
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--加载perperties配置文件的信息-->
     <context:property-placeholder location="classpath:*.properties"/>
 
     <!--加载druid资源-->
@@ -20,7 +23,7 @@
         <property name="accountDao" ref="accountDao"/>
     </bean>
 
-    <!--spring整合mybatis后控制的创建连接用的对象,创建sqlSessionFactory对象-->
+    <!--spring整合mybatis后控制的创建连接用的对象-->
     <bean class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="typeAliasesPackage" value="com.itheima.domain"/>
@@ -30,5 +33,7 @@
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.itheima.dao"/>
     </bean>
+
+
 
 </beans>
