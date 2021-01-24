@@ -14,8 +14,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 @SpringBootApplication
 @EnableCircuitBreaker//开启Hystrix的功能
 public class ProviderApp {
-
-
     public static void main(String[] args) {
         SpringApplication.run(ProviderApp.class,args);
     }

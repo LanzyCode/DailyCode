@@ -30,10 +30,13 @@ public class GoodsController {
     @GetMapping("/findOne/{id}")
     @HystrixCommand(fallbackMethod ="findOne_fallback")
     public Goods findOne(@PathVariable("id") int id){
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        if(id==1){
+            int i =3/0;
         }
         Goods goods = goodsService.findOne(id);
 
